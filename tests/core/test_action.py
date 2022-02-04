@@ -525,6 +525,34 @@ def test_PullJobsBaseAction_hydrate_job_with_parsing_with_empty_summary_and_only
     assert hydrated_job.skills == None
     assert hydrated_job == job
 
+@responses.activate
+def test_PullJobsBaseAction_hydrate_job_with_parsing_with_empty_description_and_only_summary(
+    hrflow_client, generated_parsing_text_response
+):
+    # Catch request
+    responses.add(
+        responses.POST,
+        "https://api.hrflow.ai/v1/document/parsing",
+        status=200,
+        json=generated_parsing_text_response,
+    )
+
+    # Build Action
+    action = PullJobsBaseAction(
+        hrflow_client=hrflow_client(), board_key="abc", hydrate_with_parsing=False
+    )
+    job = HrflowJob.parse_obj(
+        dict(reference="REF123", summary="I love Python and speak English", skills=None, languages=None)
+    )
+
+    assert job.skills == None
+    assert job.languages == None
+
+    hydrated_job = action.hydrate_job_with_parsing(job)
+
+    assert len(hydrated_job.skills) == 1
+    assert hydrated_job.skills[0] == dict(name="Python", type="hard", value=None)
+    assert hydrated_job != job
 
 @pytest.fixture
 def generate_indexing_get_response():
