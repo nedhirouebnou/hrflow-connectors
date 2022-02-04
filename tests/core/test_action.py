@@ -448,8 +448,9 @@ def test_PullJobsBaseAction_hydrate_job_with_parsing(
         hrflow_client=hrflow_client(), board_key="abc", hydrate_with_parsing=False
     )
     section = dict(name="s", title=None, description="i speak english")
+    section_empty = dict()
     job = HrflowJob.parse_obj(
-        dict(reference="REF123", summary="I love Python", sections=[section])
+        dict(reference="REF123", summary="I love Python", sections=[section, section_empty])
     )
 
     assert job.skills == None
