@@ -523,7 +523,7 @@ def test_PullJobsBaseAction_hydrate_job_with_parsing_with_empty_summary_and_only
     hydrated_job = action.hydrate_job_with_parsing(job)
 
     assert hydrated_job.skills == None
-    assert hydrated_job.skills == None
+    assert hydrated_job.languages == None
     assert hydrated_job == job
 
 @responses.activate
@@ -1302,7 +1302,7 @@ def test_CatchProfileBaseAction_push_success(hrflow_client):
 
 
 @responses.activate
-def test_CatchProfileBaseAction_push_success(hrflow_client):
+def test_CatchProfileBaseAction_push_fail(hrflow_client):
     # Mock requests and check data sent
     returned_value = dict(code=400, message="Test", data=[])
     data_expected = dict(
