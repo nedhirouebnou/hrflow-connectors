@@ -36,6 +36,7 @@
               "x_smart_token": {
                 "title": "X Smart Token",
                 "description": "X-SmartToken used to access SmartRecruiters API",
+                "repr": false,
                 "type": "string"
               },
               "query": {
@@ -451,6 +452,7 @@
               "api_secret": {
                 "title": "Api Secret",
                 "description": "X-API-KEY used to access HrFlow.ai API",
+                "repr": false,
                 "type": "string"
               },
               "api_user": {
@@ -797,6 +799,7 @@
               "api_secret": {
                 "title": "Api Secret",
                 "description": "X-API-KEY used to access HrFlow.ai API",
+                "repr": false,
                 "type": "string"
               },
               "api_user": {
@@ -1291,6 +1294,7 @@
               "x_smart_token": {
                 "title": "X Smart Token",
                 "description": "X-SmartToken used to access SmartRecruiters API",
+                "repr": false,
                 "type": "string"
               },
               "job_id": {
@@ -1535,6 +1539,564 @@
           },
           "workflow_type": "catch",
           "workflow_code": "\nimport typing as t\n\nfrom hrflow_connectors import SmartRecruiters\n\n# << format_placeholder >>\n\n# << logics_placeholder >>\n\ndef workflow(\n        \n        _request: t.Dict,\n        \n        settings: t.Dict\n    ) -> None:\n    actions_parameters = dict()\n    try:\n        format\n    except NameError:\n        pass\n    else:\n        actions_parameters[\"format\"] = format\n\n    try:\n        logics\n    except NameError:\n        pass\n    else:\n        actions_parameters[\"logics\"] = logics\n\n    \n    pull_parameters_from = {**settings, **_request}\n    \n\n    SmartRecruiters.push_profile(\n        action_parameters=actions_parameters,\n        origin_parameters=dict(\n                api_secret=pull_parameters_from.get(\"api_secret\"),\n                api_user=pull_parameters_from.get(\"api_user\"),\n                source_key=pull_parameters_from.get(\"source_key\"),\n                profile_key=pull_parameters_from.get(\"profile_key\"),\n        ),\n        target_parameters=dict(\n                x_smart_token=pull_parameters_from.get(\"x_smart_token\"),\n                job_id=pull_parameters_from.get(\"job_id\"),\n        ),\n    )",
+          "workflow_code_format_placeholder": "# << format_placeholder >>",
+          "workflow_code_logics_placeholder": "# << logics_placeholder >>"
+        }
+      ]
+    },
+    {
+      "name": "Taleez",
+      "actions": [
+        {
+          "name": "pull_jobs",
+          "action_parameters": {
+            "title": "PullJobsActionParameters",
+            "type": "object",
+            "properties": {
+              "logics": [
+                {
+                  "title": "logics",
+                  "description": "List of logic functions. Each function should have the following signature typing.Callable[[typing.Dict], typing.Union[typing.Dict, NoneType]]. The final list should be exposed in a variable named 'logics'.",
+                  "template": "\nimport typing as t\n\ndef logic_1(item: t.Dict) -> t.Union[t.Dict, None]:\n    return None\n\ndef logic_2(item: t.Dict) -> t.Uniont[t.Dict, None]:\n    return None\n\nlogics = [logic_1, logic_2]\n",
+                  "type": "code_editor"
+                }
+              ],
+              "format": [
+                {
+                  "title": "format",
+                  "description": "Formatting function. You should expose a function named 'format' with following signature typing.Callable[[typing.Dict], typing.Dict]",
+                  "template": "\nimport typing as t\n\ndef format(item: t.Dict) -> t.Dict:\n    return item\n",
+                  "type": "code_editor"
+                }
+              ]
+            }
+          },
+          "origin": "Taleez Jobs",
+          "origin_parameters": {
+            "title": "PullJobsParameters",
+            "type": "object",
+            "properties": {
+              "x_taleez_api_secret": {
+                "title": "X Taleez Api Secret",
+                "description": "X-taleez-api-secret used to access Taleez API",
+                "repr": false,
+                "type": "string"
+              },
+              "with_details": {
+                "title": "With Details",
+                "description": "xxx",
+                "type": "boolean"
+              },
+              "job_status": {
+                "description": "Posting status of a job. One of ['PUBLISHED']",
+                "allOf": [
+                  {
+                    "$ref": "#/definitions/JobStatus"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "x_taleez_api_secret",
+              "with_details"
+            ],
+            "definitions": {
+              "JobStatus": {
+                "title": "JobStatus",
+                "description": "An enumeration.",
+                "enum": [
+                  "PUBLISHED"
+                ],
+                "type": "string"
+              }
+            }
+          },
+          "origin_data_schema": {
+            "title": "TaleezJob",
+            "type": "object",
+            "properties": {
+              "id": {
+                "title": "Id",
+                "type": "integer"
+              },
+              "token": {
+                "title": "Token",
+                "type": "string"
+              },
+              "dateCreation": {
+                "title": "Datecreation",
+                "type": "integer"
+              },
+              "dateFirstPublish": {
+                "title": "Datefirstpublish",
+                "type": "integer"
+              },
+              "dateLastPublish": {
+                "title": "Datelastpublish",
+                "type": "integer"
+              },
+              "label": {
+                "title": "Label",
+                "type": "string"
+              },
+              "profile": {
+                "title": "Profile",
+                "type": "string"
+              },
+              "currentStatus": {
+                "title": "Currentstatus",
+                "type": "string"
+              },
+              "contract": {
+                "title": "Contract",
+                "type": "string"
+              },
+              "contractLength": {
+                "title": "Contractlength",
+                "type": "integer"
+              },
+              "fullTime": {
+                "title": "Fulltime",
+                "type": "boolean"
+              },
+              "workHours": {
+                "title": "Workhours",
+                "type": "integer"
+              },
+              "qualification": {
+                "title": "Qualification",
+                "type": "string"
+              },
+              "remote": {
+                "title": "Remote",
+                "type": "boolean"
+              },
+              "country": {
+                "title": "Country",
+                "type": "string"
+              },
+              "city": {
+                "title": "City",
+                "type": "string"
+              },
+              "postalCode": {
+                "title": "Postalcode",
+                "type": "string"
+              },
+              "lat": {
+                "title": "Lat",
+                "type": "string"
+              },
+              "lng": {
+                "title": "Lng",
+                "type": "string"
+              },
+              "recruiterId": {
+                "title": "Recruiterid",
+                "type": "integer"
+              },
+              "who": {
+                "title": "Who",
+                "type": "string"
+              },
+              "logo": {
+                "title": "Logo",
+                "type": "string"
+              },
+              "banner": {
+                "title": "Banner",
+                "type": "string"
+              },
+              "companyLabel": {
+                "title": "Companylabel",
+                "type": "string"
+              },
+              "tags": {
+                "title": "Tags",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "url": {
+                "title": "Url",
+                "type": "string"
+              },
+              "urlApplying": {
+                "title": "Urlapplying",
+                "type": "string"
+              },
+              "jobDescription": {
+                "title": "Jobdescription",
+                "type": "string"
+              },
+              "profileDescription": {
+                "title": "Profiledescription",
+                "type": "string"
+              },
+              "companyDescription": {
+                "title": "Companydescription",
+                "type": "string"
+              },
+              "public": {
+                "title": "Public",
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "id",
+              "token",
+              "dateCreation",
+              "dateFirstPublish",
+              "dateLastPublish",
+              "label",
+              "profile",
+              "currentStatus",
+              "contract",
+              "contractLength",
+              "fullTime",
+              "workHours",
+              "qualification",
+              "remote",
+              "country",
+              "city",
+              "postalCode",
+              "lat",
+              "lng",
+              "recruiterId",
+              "who",
+              "logo",
+              "banner",
+              "companyLabel",
+              "tags",
+              "url",
+              "urlApplying",
+              "jobDescription",
+              "profileDescription",
+              "companyDescription",
+              "public"
+            ]
+          },
+          "target": "HrFlow.ai Jobs",
+          "target_parameters": {
+            "title": "PushJobParameters",
+            "type": "object",
+            "properties": {
+              "api_secret": {
+                "title": "Api Secret",
+                "description": "X-API-KEY used to access HrFlow.ai API",
+                "repr": false,
+                "type": "string"
+              },
+              "api_user": {
+                "title": "Api User",
+                "description": "X-USER-EMAIL used to access HrFlow.ai API",
+                "type": "string"
+              },
+              "board_key": {
+                "title": "Board Key",
+                "description": "HrFlow.ai board key",
+                "type": "string"
+              },
+              "sync": {
+                "title": "Sync",
+                "description": "When enabled only pushed jobs will remain in the board",
+                "default": true,
+                "type": "boolean"
+              },
+              "update_content": {
+                "title": "Update Content",
+                "description": "When enabled jobs already present in the board are updated",
+                "default": false,
+                "type": "boolean"
+              },
+              "enrich_with_parsing": {
+                "title": "Enrich With Parsing",
+                "description": "When enabled jobs are enriched with HrFlow.ai parsing",
+                "default": false,
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "api_secret",
+              "api_user",
+              "board_key"
+            ]
+          },
+          "target_data_schema": {
+            "title": "HrFlowJob",
+            "type": "object",
+            "properties": {
+              "key": {
+                "title": "Key",
+                "description": "Identification key of the Job.",
+                "type": "string"
+              },
+              "reference": {
+                "title": "Reference",
+                "description": "Custom identifier of the Job.",
+                "type": "string"
+              },
+              "name": {
+                "title": "Name",
+                "description": "Job title.",
+                "type": "string"
+              },
+              "location": {
+                "title": "Location",
+                "description": "Job location object.",
+                "allOf": [
+                  {
+                    "$ref": "#/definitions/Location"
+                  }
+                ]
+              },
+              "sections": {
+                "title": "Sections",
+                "description": "Job custom sections.",
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/Section"
+                }
+              },
+              "url": {
+                "title": "Url",
+                "description": "Job post original URL.",
+                "type": "string"
+              },
+              "summary": {
+                "title": "Summary",
+                "description": "Brief summary of the Job.",
+                "type": "string"
+              },
+              "archieved_at": {
+                "title": "Archieved At",
+                "description": "type: datetime ISO8601, Archive date of the Job. The value is null for unarchived Jobs.",
+                "type": "string"
+              },
+              "updated_at": {
+                "title": "Updated At",
+                "description": "type: datetime ISO8601, Last update date of the Job.",
+                "type": "string"
+              },
+              "created_at": {
+                "title": "Created At",
+                "description": "type: datetime ISO8601, Creation date of the Job.",
+                "type": "string"
+              },
+              "skills": {
+                "title": "Skills",
+                "description": "t.List of skills of the Job.",
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/Skill"
+                }
+              },
+              "languages": {
+                "title": "Languages",
+                "description": "t.List of spoken languages of the Job",
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/GeneralEntitySchema"
+                }
+              },
+              "certifications": {
+                "title": "Certifications",
+                "description": "t.List of certifications of the Job.",
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/GeneralEntitySchema"
+                }
+              },
+              "courses": {
+                "title": "Courses",
+                "description": "t.List of courses of the Job",
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/GeneralEntitySchema"
+                }
+              },
+              "tasks": {
+                "title": "Tasks",
+                "description": "t.List of tasks of the Job",
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/GeneralEntitySchema"
+                }
+              },
+              "tags": {
+                "title": "Tags",
+                "description": "t.List of tags of the Job",
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/GeneralEntitySchema"
+                }
+              },
+              "metadatas": {
+                "title": "Metadatas",
+                "description": "t.List of metadatas of the Job",
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/GeneralEntitySchema"
+                }
+              },
+              "ranges_float": {
+                "title": "Ranges Float",
+                "description": "t.List of ranges of floats",
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/RangesFloat"
+                }
+              },
+              "ranges_date": {
+                "title": "Ranges Date",
+                "description": "t.List of ranges of dates",
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/RangesDate"
+                }
+              }
+            },
+            "required": [
+              "name"
+            ],
+            "definitions": {
+              "Location": {
+                "title": "Location",
+                "type": "object",
+                "properties": {
+                  "text": {
+                    "title": "Text",
+                    "description": "Location text address.",
+                    "type": "string"
+                  },
+                  "lat": {
+                    "title": "Lat",
+                    "description": "Geocentric latitude of the Location.",
+                    "type": "number"
+                  },
+                  "lng": {
+                    "title": "Lng",
+                    "description": "Geocentric longitude of the Location.",
+                    "type": "number"
+                  }
+                }
+              },
+              "Section": {
+                "title": "Section",
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "title": "Name",
+                    "description": "Identification name of a Section of the Job. Example: culture",
+                    "type": "string"
+                  },
+                  "title": {
+                    "title": "Title",
+                    "description": "Display Title of a Section. Example: Corporate Culture",
+                    "type": "string"
+                  },
+                  "description": {
+                    "title": "Description",
+                    "description": "Text description of a Section: Example: Our values areNone",
+                    "type": "string"
+                  }
+                }
+              },
+              "Skill": {
+                "title": "Skill",
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "title": "Name",
+                    "description": "Identification name of the skill",
+                    "type": "string"
+                  },
+                  "type": {
+                    "title": "Type",
+                    "description": "Type of the skill. hard or soft",
+                    "type": "string"
+                  },
+                  "value": {
+                    "title": "Value",
+                    "description": "Value associated to the skill",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name"
+                ]
+              },
+              "GeneralEntitySchema": {
+                "title": "GeneralEntitySchema",
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "title": "Name",
+                    "description": "Identification name of the Object",
+                    "type": "string"
+                  },
+                  "value": {
+                    "title": "Value",
+                    "description": "Value associated to the Object's name",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name"
+                ]
+              },
+              "RangesFloat": {
+                "title": "RangesFloat",
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "title": "Name",
+                    "description": "Identification name of a Range of floats attached to the Job. Example: salary",
+                    "type": "string"
+                  },
+                  "value_min": {
+                    "title": "Value Min",
+                    "description": "Min value. Example: 500.",
+                    "type": "number"
+                  },
+                  "value_max": {
+                    "title": "Value Max",
+                    "description": "Max value. Example: 100.",
+                    "type": "number"
+                  },
+                  "unit": {
+                    "title": "Unit",
+                    "description": "Unit of the value. Example: euros.",
+                    "type": "string"
+                  }
+                }
+              },
+              "RangesDate": {
+                "title": "RangesDate",
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "title": "Name",
+                    "description": "Identification name of a Range of dates attached to the Job. Example: availability.",
+                    "type": "string"
+                  },
+                  "value_min": {
+                    "title": "Value Min",
+                    "description": "Min value in datetime ISO 8601, Example: 500.",
+                    "type": "string"
+                  },
+                  "value_max": {
+                    "title": "Value Max",
+                    "description": "Max value in datetime ISO 8601, Example: 1000",
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "workflow_type": "pull",
+          "workflow_code": "\nimport typing as t\n\nfrom hrflow_connectors import Taleez\n\n# << format_placeholder >>\n\n# << logics_placeholder >>\n\ndef workflow(\n        \n        settings: t.Dict\n    ) -> None:\n    actions_parameters = dict()\n    try:\n        format\n    except NameError:\n        pass\n    else:\n        actions_parameters[\"format\"] = format\n\n    try:\n        logics\n    except NameError:\n        pass\n    else:\n        actions_parameters[\"logics\"] = logics\n\n    \n    pull_parameters_from = settings\n    \n\n    Taleez.pull_jobs(\n        action_parameters=actions_parameters,\n        origin_parameters=dict(\n                x_taleez_api_secret=pull_parameters_from.get(\"x_taleez_api_secret\"),\n                with_details=pull_parameters_from.get(\"with_details\"),\n                job_status=pull_parameters_from.get(\"job_status\"),\n        ),\n        target_parameters=dict(\n                api_secret=pull_parameters_from.get(\"api_secret\"),\n                api_user=pull_parameters_from.get(\"api_user\"),\n                board_key=pull_parameters_from.get(\"board_key\"),\n                sync=pull_parameters_from.get(\"sync\"),\n                update_content=pull_parameters_from.get(\"update_content\"),\n                enrich_with_parsing=pull_parameters_from.get(\"enrich_with_parsing\"),\n        ),\n    )",
           "workflow_code_format_placeholder": "# << format_placeholder >>",
           "workflow_code_logics_placeholder": "# << logics_placeholder >>"
         }
